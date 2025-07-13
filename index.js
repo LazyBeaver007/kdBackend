@@ -1,6 +1,7 @@
 const express = require('express')
 const connectDB = require('./config/db')
 const farmerRoutes = require('./routes/farmerRoutes');
+const feedTypeRoutes = require('./routes/feedTypeRoutes');
 
 connectDB();
 
@@ -13,6 +14,7 @@ app.get('/',(req, res) => {
 });
 
 app.use('/api/farmers',farmerRoutes);
+app.use('/api/feedtypes', feedTypeRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
