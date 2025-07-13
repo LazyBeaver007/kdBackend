@@ -17,9 +17,10 @@ const createFarmer = asyncHandler(async(req,res)=>
     const lastFarmer = await Farmer.findOne({ userId: { $exists: true, $ne: null } }).sort({ 'createdAt': -1 });
 
     let nextId = 1001;
-    if(lastFarmer && lastFarmer.userId)
+    const idRegex = /-(\d+)$/;
+    if(lastFarmer && lastFarmer.userId && idRegex.test(lastFarmer.userId))
     {
-        const lastId = parseInt(lastFarmer.userId.split('-')[1]);
+        const lastId = parseInt(lastFarmer.userId.match(idRegex)[1]);
         nextId = lastId + 1;
     }
     const userId = `KDF-${nextId}`;
@@ -55,12 +56,64 @@ const createFarmer = asyncHandler(async(req,res)=>
 
 const getFarmers = asyncHandler(async(req,res)=>
 {
-    const farmers = await Farmer.find({});
+    const keyword = req.query.search
+    ? {
+      name: {
+        $regex: req.query.search,
+        $options: 'i',
+      },
+    }
+    : {};
+
+    const farmers = await Farmer.find({...keyword});
     res.status(200).json(farmers);
+});
+
+const getFarmerById = asyncHandler(async (req,res)=>
+{
+  const farmer = await Farmer.findById(req.params.id);
+
+  if (farmer)
+  {
+    res.status(200).json(farmer);
+  }
+  else 
+  {
+    res.status(404);
+    throw new Error('Farmer not found');
+  }
+});
+
+
+const updateFarmer = asyncHandler(async (req, res)=>
+{
+  const farmer = await Farmer.findById(req.params.id);
+
+  if(farmer) 
+  {
+    farmer.name = req.body.name || farmer.name;
+    farmer.phone = req.body.phone || farmer.phone;
+    farmer.address = req.body.address || farmer.address;
+
+    if(req.body.isActive !== undefined)
+    {
+      farmer.isActive = req.body.isActive;
+    }
+
+    const updatedFarmer = await farmer.save();
+    res.status(200).json(updatedFarmer);
+  }
+  else 
+  {
+    res.status(404);
+    throw new Error('Farmer not found');
+  }
 });
 
 module.exports = 
 {
     createFarmer,
     getFarmers,
+    getFarmerById,
+    updateFarmer,
 };
