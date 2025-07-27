@@ -3,6 +3,7 @@ const connectDB = require('./config/db')
 const farmerRoutes = require('./routes/farmerRoutes');
 const feedTypeRoutes = require('./routes/feedTypeRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const billingRoutes = require('./routes/billingRoutes');
 
 
 connectDB();
@@ -18,6 +19,7 @@ app.get('/',(req, res) => {
 app.use('/api/farmers',farmerRoutes);
 app.use('/api/feedtypes', feedTypeRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/billing', billingRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
