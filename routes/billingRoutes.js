@@ -5,10 +5,13 @@ const router = express.Router();
 const {
   setBillingSettings,
   getBillingSettings,
+  generateMonthlyBills,
 } = require('../controllers/billingController.js');
 
-// A single route to handle both getting and setting/updating the price configuration
+// Route for getting and setting price configuration
 router.route('/settings').post(setBillingSettings).get(getBillingSettings);
 
-module.exports = router;
+// Route to trigger the bill generation process for a specific month
+router.post('/generate', generateMonthlyBills);
 
+module.exports = router;
