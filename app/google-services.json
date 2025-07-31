@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8006373490",
+    "project_id": "kisaan-dairy",
+    "storage_bucket": "kisaan-dairy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8006373490:android:1a0f69cfe3560923b1f2eb",
+        "android_client_info": {
+          "package_name": "com.example.kisaan_dairy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrFMzUPsLhoVDT_BsYXoYxzctVtIKskik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
