@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KisaanDairy">
         <activity
+            android:name=".FarmerListActivity"
+            android:exported="false" />
+        <activity
             android:name=".StaffActivity"
             android:exported="false" />
         <activity
