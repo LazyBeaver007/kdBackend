@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kisaan-Dairy</string>
+    <string name="status_active">Active\n</string>
+    <string name="status_inactive">InActive\n</string>
 </resources>
