@@ -1,6 +1,7 @@
 package com.example.kisaan_dairy
 
 import Adapters.FarmerAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.SearchView
@@ -11,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kisaan_dairy.databinding.ActivityFarmerListBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.toObjects
@@ -23,6 +25,7 @@ class FarmerListActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var farmerAdapter: FarmerAdapter
     private  var allFarmers = mutableListOf<Farmer>()
+    private lateinit var addfab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +48,10 @@ class FarmerListActivity : AppCompatActivity() {
         fetchFarmers()
         setupSearchView()
 
-        binding.fabAddFarmer.setOnClickListener {
-            // Handle the click event for adding a new farmer
+        addfab = findViewById(R.id.fabAddFarmer)
+        addfab.setOnClickListener {
+            val intent =  Intent(this, AddEditFarmerActivity::class.java)
+            startActivity(intent)
             Toast.makeText(this, "Add Farmer Clicked", Toast.LENGTH_SHORT).show()
         }
     }

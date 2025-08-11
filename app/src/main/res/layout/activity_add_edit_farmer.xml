@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_close"
+            app:navigationIcon="@drawable/ic_plus"
             tools:title="Add New Farmer" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -35,7 +35,7 @@
                 android:id="@+id/imageViewFarmer"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/ic_person_placeholder"
+                android:src="@drawable/img"
                 app:civ_border_color="#FF000000"
                 app:civ_border_width="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
