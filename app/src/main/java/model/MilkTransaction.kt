@@ -16,4 +16,3 @@ data class MilkTransaction(
     @ServerTimestamp val date: Date? = null
 ) : Parcelable
 
-

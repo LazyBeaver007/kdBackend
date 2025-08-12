@@ -13,7 +13,7 @@ data class Farmer(
     val name: String = "",
     val phone: String = "",
     val address: String = "",
-    var photoUrl: String? = null, // URL from Firebase Storage
+    var photoBase64: String? = null, // Photo stored as a Base64 string
     var qrCodeUrl: String? = null,
     val isActive: Boolean = true,
     @ServerTimestamp val createdAt: Date? = null

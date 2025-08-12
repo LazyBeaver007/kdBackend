@@ -4,63 +4,50 @@ import Adapters.FarmerAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kisaan_dairy.databinding.ActivityFarmerListBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.toObjects
 import model.Farmer
 
 class FarmerListActivity : AppCompatActivity() {
 
-
-    private  lateinit var binding: ActivityFarmerListBinding
+    private lateinit var binding: ActivityFarmerListBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var farmerAdapter: FarmerAdapter
-    private  var allFarmers = mutableListOf<Farmer>()
-    private lateinit var addfab: FloatingActionButton
+    private val allFarmers = mutableListOf<Farmer>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        // Inflate the layout using view binding and set the content view
         binding = ActivityFarmerListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_farmer_list)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-
+        // Initialize Firestore
         db = FirebaseFirestore.getInstance()
+
+        // Setup UI components
         setupRecyclerView()
         fetchFarmers()
         setupSearchView()
 
-        addfab = findViewById(R.id.fabAddFarmer)
-        addfab.setOnClickListener {
-            val intent =  Intent(this, AddEditFarmerActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this, "Add Farmer Clicked", Toast.LENGTH_SHORT).show()
+        // Set click listener for the Floating Action Button
+        binding.fabAddFarmer.setOnClickListener {
+            startActivity(Intent(this, AddEditFarmerActivity::class.java))
         }
     }
 
-    private fun setupRecyclerView()
-    {
-        farmerAdapter = FarmerAdapter(emptyList()) {farmer ->
-            // Handle item click event
-            Toast.makeText(this, "Item Clicked: ${farmer.name}", Toast.LENGTH_SHORT).show()
+    private fun setupRecyclerView() {
+        farmerAdapter = FarmerAdapter(emptyList()) { farmer ->
+            // Navigate to AddEditFarmerActivity with farmer data for editing
+            val intent = Intent(this, AddEditFarmerActivity::class.java)
+            intent.putExtra("FARMER_EXTRA", farmer)
+            startActivity(intent)
         }
         binding.recyclerViewFarmers.apply {
             layoutManager = LinearLayoutManager(this@FarmerListActivity)
@@ -81,15 +68,19 @@ class FarmerListActivity : AppCompatActivity() {
 
                 if (snapshots != null) {
                     allFarmers.clear()
-                    allFarmers.addAll(snapshots.toObjects<Farmer>())
+                    // **CRITICAL FIX:** Map Firestore documents to Farmer objects
+                    // and manually assign the document ID to the model's 'id' field.
+                    val farmersList = snapshots.map { doc ->
+                        doc.toObject(Farmer::class.java).apply { id = doc.id }
+                    }
+                    allFarmers.addAll(farmersList)
                     farmerAdapter.updateData(allFarmers)
                 }
             }
     }
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
