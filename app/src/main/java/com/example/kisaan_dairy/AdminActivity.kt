@@ -46,7 +46,8 @@ class AdminActivity : AppCompatActivity() {
         }
 
         StaffCard.setOnClickListener {
-            // Handle Staff Card click
+            val intent = Intent(this, StaffActivity::class.java)
+            startActivity(intent)
         }
 
         PriceFeedCard.setOnClickListener {

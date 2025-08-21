@@ -24,14 +24,14 @@ class FarmerListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Inflate the layout using view binding and set the content view
+
         binding = ActivityFarmerListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firestore
+
         db = FirebaseFirestore.getInstance()
 
-        // Setup UI components
+      
         setupRecyclerView()
         fetchFarmers()
         setupSearchView()
