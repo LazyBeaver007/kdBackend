@@ -12,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KisaanDairy">
         <activity
+            android:name=".RecordTransactionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QuickEntryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEditFarmerActivity"
             android:exported="false" />
         <activity

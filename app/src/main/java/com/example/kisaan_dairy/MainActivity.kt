@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                        startActivity(intent)
 
                     } else if (role == "staff") {
-                        val intent = Intent(this, StaffActivity::class.java)
+                        val intent = Intent(this, StaffDashboardActivity::class.java)
                         startActivity(intent)
 
                     } else {
